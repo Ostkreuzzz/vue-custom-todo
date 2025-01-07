@@ -1,11 +1,11 @@
 import type { Config } from 'tailwindcss'
 
+import typography from '@tailwindcss/typography'
+import forms from '@tailwindcss/forms'
+import aspectRatio from '@tailwindcss/aspect-ratio'
+
 export default {
-  content: [
-    './pages//*.{js,ts,jsx,tsx,mdx}',
-    './components//*.{js,ts,jsx,tsx,mdx}',
-    './app/**/*.{js,ts,jsx,tsx,mdx}',
-  ],
+  content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
   theme: {
     screens: {
       mobile: '320px',
@@ -15,10 +15,11 @@ export default {
     },
 
     colors: {
+      'dark-gray': '#393A4B',
+      'dark-blue': '#25273D',
+      'dark-white': '#C8CBE7',
       white: '#FFFFFF',
       'white-secondary': '#D1D2DA',
-      'white-soft': '#C8CBE7',
-      'dark-blue': '#25273D',
       'light-gray': '#5B5E7E',
       'light-gray-secondary': '#9495A5',
       'light-gray-outline': '#494C6B',
@@ -52,13 +53,24 @@ export default {
       108: '108px',
       152: '152px',
       220: '220px',
+      540: '540px',
     },
 
     extend: {
       borderRadius: {
         xl: '20px',
       },
+
+      backgroundImage: {
+        'desktop-dark': "url('/background/bg-desktop-dark.jpg')",
+        'desktop-light': "url('/background/bg-desktop-light.jpg')",
+        'mobile-dark': "url('/background/bg-mobile-dark.jpg')",
+        'mobile-light': "url('/background/bg-desktop-light.jpg')",
+        'icon-close': "url('/src/components/icons/icon-cross.svg')",
+        'icon-light': "url('/src/components/icons/icon-sun.svg')",
+        'icon-dark': "url('/src/components/icons/icon-moon.svg')",
+      },
     },
   },
-  plugins: [],
+  plugins: [typography, forms, aspectRatio],
 } satisfies Config

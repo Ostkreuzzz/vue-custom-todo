@@ -8,15 +8,16 @@
 
 body {
   min-height: 100vh;
-  color: #C8CBE7;
-  background: #25273D;
+  color: #c8cbe7;
+  background: #171823;
+  background-image: url('../public/background/bg-desktop-dark.jpg');
+  background-repeat: no-repeat;
+  background-size: 100%;
   transition:
     color 0.5s,
     background-color 0.5s;
   line-height: 1.6;
-  font-family:
-    "Outfit", sans-serif;
-    sans-serif;
+  font-family: 'Outfit', sans-serif;
   font-size: 16px;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
