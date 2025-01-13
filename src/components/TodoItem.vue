@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, nextTick } from 'vue';
 import type { Todo } from '../interfaces/Todo';
+import 'primeicons/primeicons.css';
 
 const props = defineProps<{
   todo: Todo;
@@ -9,6 +10,8 @@ const props = defineProps<{
 const emit = defineEmits(['delete', 'update', 'toggle']);
 
 const isEditing = ref(false);
+const isLoading = ref(false);
+
 const newTitle = ref(props.todo.title);
 const titleField = ref<HTMLInputElement | null>(null);
 
@@ -24,29 +27,38 @@ const startEditing = async () => {
 };
 
 function saveEdit() {
+  isLoading.value = true;
+
   isEditing.value = false;
 
   if (newTitle.value === props.todo.title) {
     return;
   }
-
   if (newTitle.value.trim()) {
     emit('update', { ...props.todo, title: newTitle.value.trim() });
   } else {
-    emit('delete');
+    emit('delete', props.todo.id);
     return;
   }
+  isLoading.value = false;
 }
 </script>
 
 <template>
   <li
     @dblclick="startEditing"
-    :class="{ 'border-2 border-white': isEditing }"
+    :class="{ 'border-white': isEditing }"
     class="group flex h-64 items-center justify-between gap-24 border-b-2 border-dark-gray bg-dark-blue px-18 py-24 duration-300 first:rounded-t-lg hover:border-blue"
   >
     <div class="flex items-center gap-24">
+      <i
+        v-if="isEditing"
+        class="pi pi-spin pi-spinner"
+        style="font-size: 24px"
+      ></i>
+
       <input
+        v-else
         type="checkbox"
         class="h-24 w-24 cursor-pointer rounded-xl border-light-gray bg-dark-blue"
         :checked="todo.completed"

@@ -6,12 +6,12 @@ import StatusFilter from './components/StatusFilter.vue';
 import { FilterType } from './enums/FilterType';
 import TodoItem from './components/TodoItem.vue';
 
+import { useToast } from 'primevue/usetoast';
+import Toast from 'primevue/toast';
+
+const toast = useToast();
+
 const data = reactive<Todo[]>([]);
-const error = reactive({
-  isError: false,
-  errorType: '',
-});
-const isLoading = ref(false);
 
 const status = ref(FilterType.ALL);
 const title = ref('');
@@ -39,6 +39,15 @@ function handleToggleComplete() {
   activeTodos().forEach((todo) => handleToggle(todo));
 }
 
+const showError = (message: string) => {
+  toast.add({
+    severity: 'error',
+    summary: 'ERROR',
+    detail: message,
+    life: 3000,
+  });
+};
+
 function handleClearAll() {
   const completed = completedTodos();
 
@@ -51,17 +60,15 @@ function handleToggle(todo: Todo) {
 }
 
 async function fetchTodos() {
-  isLoading.value = true;
   try {
     const response = await getTodos();
     data.push(...response.data);
   } catch (e) {
-    error.errorType = `Failed to fetch todos: ${e}`;
+    showError(`Failed to fetch todos: ${e}`);
   }
 }
 
 async function handleTodoUpdate(todo: Todo) {
-  isLoading.value = true;
   try {
     const response = await updateTodo(todo);
 
@@ -73,7 +80,7 @@ async function handleTodoUpdate(todo: Todo) {
       ),
     );
   } catch (e) {
-    error.errorType = `Failed to fetch todos: ${e}`;
+    showError(`Failed to update todo: ${e}`);
   }
 }
 
@@ -82,16 +89,13 @@ async function handleTodoDelete(id: number) {
     await deleteTodo(id);
     data.splice(0, data.length, ...data.filter((todo) => todo.id !== id));
   } catch (e) {
-    error.errorType = `Failed to fetch todos: ${e}`;
+    showError(`Failed to delete todo: ${e}`);
   }
 }
 
 async function handleTodoCreation() {
-  isLoading.value = true;
-
   if (!title.value.trim()) {
-    error.errorType = `Title should not be empty`;
-
+    showError(`Title should not be empty`);
     return;
   }
 
@@ -99,11 +103,10 @@ async function handleTodoCreation() {
     const response = await createTodo(title.value);
 
     data.push(response.data);
-  } catch (error) {
-    console.error('Failed to add todo:', error);
+    title.value = '';
+  } catch (e) {
+    showError(`Failed to create todo: ${e}`);
   }
-
-  title.value = '';
 }
 
 onMounted(() => {
@@ -112,15 +115,13 @@ onMounted(() => {
 </script>
 
 <template>
+  <Toast />
   <div class="flex items-center justify-center">
     <div class="flex w-540 flex-col justify-center gap-64">
       <div class="mt-72 flex items-center justify-between">
         <header class="text-5xl font-bold tracking-widest text-white">
           TODO
         </header>
-        <button
-          class="h-[26px] w-[26px] bg-icon-light transition-all duration-500 hover:scale-105"
-        ></button>
       </div>
 
       <main>
@@ -159,9 +160,9 @@ onMounted(() => {
                   v-for="todo of visibleData()"
                   :key="todo.id"
                   :todo="todo"
-                  @toggle="handleToggle(todo)"
-                  @delete="deleteTodo(todo.id)"
-                  @update="updateTodo($event)"
+                  @toggle="handleToggle"
+                  @delete="handleTodoDelete"
+                  @update="handleTodoUpdate"
                 />
               </TransitionGroup>
             </ul>
