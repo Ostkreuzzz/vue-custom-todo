@@ -1,0 +1,9 @@
+{
+  "arrowParens": "always",
+  "$schema": "https://json.schemastore.org/prettierrc",
+  "jsxSingleQuote": true,
+  "bracketSpacing": true,
+  "singleQuote": true,
+  "printWidth": 80,
+  "plugins": ["prettier-plugin-tailwindcss"]
+}
