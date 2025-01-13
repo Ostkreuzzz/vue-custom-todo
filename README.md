@@ -1,39 +1,26 @@
-# vue-custom-todo
+# Frontend Mentor - Todo app solution
 
-This template should help get you started developing with Vue 3 in Vite.
+This is a solution to the [Todo](https://www.frontendmentor.io/challenges/todo-app-Su1_KokOW).
 
-## Recommended IDE Setup
+### The challenge
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+Users should be able to:
 
-## Type Support for `.vue` Imports in TS
+- See hover states for all interactive elements on the page
+- Add new todos to the list
+- Mark todos as complete
+- Delete todos from the list
+- Filter by all/active/complete todos
+- Clear all completed todos
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+### Screenshot
 
-## Customize configuration
+![](./desktop-perview.jpg)
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+### Built with
 
-## Project Setup
-
-```sh
-npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
-
-### Type-Check, Compile and Minify for Production
-
-```sh
-npm run build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
+- Tailwind
+- Axios/ REST API
+- Flexbox
+- VUE 3
+- Prime VUE UI
