@@ -1,8 +1,8 @@
-import type { Config } from 'tailwindcss'
+import type { Config } from 'tailwindcss';
 
-import typography from '@tailwindcss/typography'
-import forms from '@tailwindcss/forms'
-import aspectRatio from '@tailwindcss/aspect-ratio'
+import typography from '@tailwindcss/typography';
+import forms from '@tailwindcss/forms';
+import aspectRatio from '@tailwindcss/aspect-ratio';
 
 export default {
   content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
@@ -66,11 +66,11 @@ export default {
         'desktop-light': "url('/background/bg-desktop-light.jpg')",
         'mobile-dark': "url('/background/bg-mobile-dark.jpg')",
         'mobile-light': "url('/background/bg-desktop-light.jpg')",
-        'icon-close': "url('/src/components/icons/icon-cross.svg')",
-        'icon-light': "url('/src/components/icons/icon-sun.svg')",
-        'icon-dark': "url('/src/components/icons/icon-moon.svg')",
+        'icon-close': "url('/src/assets/icons/icon-cross.svg')",
+        'icon-light': "url('/src/assets/icons/icon-sun.svg')",
+        'icon-dark': "url('/src/assets/icons/icon-moon.svg')",
       },
     },
   },
   plugins: [typography, forms, aspectRatio],
-} satisfies Config
+} satisfies Config;

@@ -2,7 +2,9 @@
 import { ref, reactive, onMounted } from 'vue';
 import { createTodo, deleteTodo, getTodos, updateTodo } from './api/todos';
 import type { Todo } from './interfaces/Todo';
+import StatusFilter from './components/StatusFilter.vue';
 import { FilterType } from './enums/FilterType';
+import TodoItem from './components/TodoItem.vue';
 
 const data = reactive<Todo[]>([]);
 const error = reactive({
@@ -10,6 +12,7 @@ const error = reactive({
   errorType: '',
 });
 const isLoading = ref(false);
+
 const status = ref(FilterType.ALL);
 const title = ref('');
 
@@ -34,10 +37,6 @@ const visibleData = () => {
 
 function handleToggleComplete() {
   activeTodos().forEach((todo) => handleToggle(todo));
-}
-
-function handleFilterChange(newFilter: FilterType) {
-  status.value = newFilter;
 }
 
 function handleClearAll() {
@@ -79,7 +78,6 @@ async function handleTodoUpdate(todo: Todo) {
 }
 
 async function handleTodoDelete(id: number) {
-  isLoading.value = true;
   try {
     await deleteTodo(id);
     data.splice(0, data.length, ...data.filter((todo) => todo.id !== id));
@@ -142,9 +140,9 @@ onMounted(() => {
               >
                 {{ `&#x2714;` }}
               </button>
-              <form @:submit.prevent="handleTodoCreation()">
+              <form @:submit.prevent="handleTodoCreation()" class="flex-1">
                 <input
-                  class="border-none bg-dark-blue p-[0px] text-xl caret-blue focus:outline-none focus:ring-0"
+                  class="w-full border-none bg-dark-blue p-[0px] text-xl caret-blue focus:outline-none focus:ring-0"
                   type="text"
                   placeholder="What needs to be done?"
                   autofocus
@@ -157,58 +155,33 @@ onMounted(() => {
           <section>
             <ul>
               <TransitionGroup name="list" tag="section">
-                <li
-                  class="group flex h-64 items-center justify-between gap-24 border-b-2 border-dark-gray bg-dark-blue px-18 py-24 duration-300 first:rounded-t-lg hover:border-blue"
+                <TodoItem
                   v-for="todo of visibleData()"
                   :key="todo.id"
                   :todo="todo"
-                >
-                  <div class="flex items-center gap-24">
-                    <input
-                      type="checkbox"
-                      class="h-24 w-24 cursor-pointer rounded-xl border-light-gray bg-dark-blue"
-                      :checked="todo.completed"
-                      @change="handleToggle(todo)"
-                    />
-
-                    <span class="w-full text-xl">{{ todo.title }}</span>
-                  </div>
-
-                  <button
-                    @click="handleTodoDelete(todo.id)"
-                    class="h-18 w-18 bg-icon-close text-light-gray opacity-0 transition-all duration-300 group-hover:opacity-100"
-                  ></button>
-                </li>
+                  @toggle="handleToggle(todo)"
+                  @delete="deleteTodo(todo.id)"
+                  @update="updateTodo($event)"
+                />
               </TransitionGroup>
             </ul>
           </section>
         </div>
+        <footer
+          v-if="data.length"
+          class="flex h-48 items-center justify-between rounded-b-lg bg-dark-blue px-24 text-light-gray"
+        >
+          <span>{{ activeTodos().length }} items left</span>
 
-        <footer v-if="data.length">
-          <div
-            class="flex h-48 items-center justify-between rounded-b-lg bg-dark-blue px-24 text-light-gray"
+          <StatusFilter v-model="status" />
+
+          <button
+            class="transition-all duration-300 hover:text-white"
+            @click="handleClearAll()"
+            v-if="completedTodos().length"
           >
-            <span>{{ activeTodos().length }} items left</span>
-            <ul class="flex justify-between gap-18">
-              <li v-for="type of Object.values(FilterType)" :key="type">
-                <button
-                  class="Font transition-all duration-300 hover:text-white"
-                  :class="{ 'text-blue': status === type }"
-                  @click="handleFilterChange(type)"
-                >
-                  {{ type }}
-                </button>
-              </li>
-            </ul>
-
-            <button
-              class="transition-all duration-300 hover:text-white"
-              @click="handleClearAll()"
-              v-if="completedTodos().length"
-            >
-              Clear Completed
-            </button>
-          </div>
+            Clear Completed
+          </button>
         </footer>
       </main>
     </div>
