@@ -10,7 +10,7 @@ body {
   min-height: 100vh;
   color: #c8cbe7;
   background: #171823;
-  background-image: url('../public/background/bg-desktop-dark.jpg');
+  background-image: url('/src/assets/background/bg-desktop-dark.jpg');
   background-repeat: no-repeat;
   background-size: 100%;
   transition:

@@ -62,10 +62,10 @@ export default {
       },
 
       backgroundImage: {
-        'desktop-dark': "url('/background/bg-desktop-dark.jpg')",
-        'desktop-light': "url('/background/bg-desktop-light.jpg')",
-        'mobile-dark': "url('/background/bg-mobile-dark.jpg')",
-        'mobile-light': "url('/background/bg-desktop-light.jpg')",
+        'desktop-dark': "url('/src/assets/background/bg-desktop-dark.jpg')",
+        'desktop-light': "url('/src/assets/background/bg-desktop-light.jpg')",
+        'mobile-dark': "url('/src/assets/background/bg-mobile-dark.jpg')",
+        'mobile-light': "url('/src/assets/background/bg-desktop-light.jpg')",
         'icon-close': "url('/src/assets/icons/icon-cross.svg')",
         'icon-light': "url('/src/assets/icons/icon-sun.svg')",
         'icon-dark': "url('/src/assets/icons/icon-moon.svg')",
